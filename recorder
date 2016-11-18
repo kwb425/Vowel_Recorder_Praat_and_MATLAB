@@ -1,0 +1,66 @@
+#################################################################################
+# Recorder for Phonetics (HosungNam), Korea Univ 
+#
+#                                                         Written by Kim, Wiback,
+#                                                             2016. 11. 14. v1.1.
+#                                                             2016. 11. 15. v1.2.
+#################################################################################
+
+
+
+
+
+## Stimuli ######################################################################
+
+
+
+##############
+# Path Control
+##############
+stim_path$ = "./stimuli/all_con.txt"
+output_dir_path$ = "./data/" 
+
+### Creating output directory (when there is no output directory)
+createDirectory: output_dir_path$
+
+
+
+#################
+# Reading Stimuli
+#################
+Read Strings from raw text file: stim_path$
+stim_num = Get number of strings
+
+
+
+
+
+## Recording ####################################################################
+
+
+
+###########################
+# Display -> Record -> Save
+###########################
+
+### Introduction
+Erase all
+Select inner viewport: 0, 6, 0, 3
+Insert picture from file: "./intro/1.png", 0, 1, 0, 1
+Select inner viewport: 0, 6, 3, 6
+Insert picture from file: "./intro/2.png", 0, 1, 0, 1
+Select inner viewport: 0, 6, 6, 9
+Insert picture from file: "./intro/3.png", 0, 1, 0, 1
+
+### Main loop
+for each_word from 1 to stim_num
+	word$ = Get string: each_word
+	pauseScript: "                                                 ",
+				... "                           ", 
+				... word$, " (", each_word, "/", stim_num, ")" 
+	Record Sound (fixed time): "Microphone", 0.99, 0.5, "44100", 1.5 
+	each_word$ = string$: each_word
+	Save as WAV file: output_dir_path$ + each_word$ + "_" + word$ + ".wav"
+	Remove
+	select Strings all_con
+endfor
